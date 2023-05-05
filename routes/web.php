@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientsController;
+use App\Mail\WelcomeMail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('clients', ClientsController::class);
+Route::get('test', [ClientsController::class, 'sendImage']);

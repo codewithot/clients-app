@@ -2,21 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\WelcomeMail;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Mail;
 
 class ClientsController extends Controller
 {
+
     /**
      * Display a listing of the resource.
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
         // view all clients
+        if (request('search')) {
+            $clients = Client::where('last_name', 'like', '%' . request('search') . '%')->get();
+        } else {
+            $clients = Client::orderBy('updated_at', 'desc')->get();
+        }
 
         return view('clients.index', [
-            'clients' => Client::orderBy('updated_at', 'desc')->get()
+            'clients' => $clients
         ]);
     }
 
@@ -44,6 +54,9 @@ class ClientsController extends Controller
         $client->profile_image = $this->storeImage($request);
         $client->case_details = $request->case_details;
         $client->save();
+
+        Mail::to($request->email)->send( new WelcomeMail());
+
 
         return redirect(route('clients.index'));
     }
@@ -89,5 +102,13 @@ class ClientsController extends Controller
         $newImageName = uniqid() . '-' .$request->first_name . $request->profile_image->extension();
 
         return $request->profile_image->move(public_path('images'), $newImageName);
+    }
+
+    public function sendImage()
+    {
+        $clients = Client::where('profile_image', null)->get(['first_name', 'email']);
+
+        foreach ($clients as $client)
+            dd($client->first_name);
     }
 }

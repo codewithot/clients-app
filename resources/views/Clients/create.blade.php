@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Clients</title>
 {{--    @vite(['resources/css/app.css', 'resources/js/app.js'])--}}
-    @vite('resources/js/app.js')
+    @vite(['resources/css/app.css'])
 </head>
 <body>
 <div class="w-4/5 mx-auto">

@@ -13,8 +13,10 @@
     <title>
         Clients App
     </title>
-{{--    @vite(['resources/css/app.css', 'resources/js/app.js'])--}}
-    @vite('resources/js/app.js')
+    @vite(['resources/css/app.css'])
+{{--    @vite('resources/js/app.js')--}}
+{{--    <link href="https://cdn.tailwindcss.com" rel="stylesheet">--}}
+{{--    <script type="module" src="https://unpkg.com/vite"></script>--}}
 </head>
 <body>
 <div class="w-4/5 mx-auto">
